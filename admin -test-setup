@@ -1,0 +1,22 @@
+export const isAdmin = async(req,res,next)=>{
+    try {
+        const user = await userModels.findById(req.user._id)
+        if(user.role !== 1){
+            return res.status(404).send({
+                sucess: false,
+                message: 'unauthorized user (middleWare)'
+            })
+            }else{
+                next()
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.status(404).send({
+            sucess: false,
+            message: 'error in the isAdmin middleware',
+            error
+        })
+        
+    }
+}
