@@ -1,0 +1,17 @@
+.forms{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+   background-color: rgb(192, 138, 138);
+    flex-direction: column;
+   
+    
+
+}
+.form{
+    box-shadow: 0 0 20px black;
+    background-color: rgb(123, 123, 168);
+    padding: 3rem;
+    border-radius: 10px;
+}

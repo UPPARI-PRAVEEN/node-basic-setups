@@ -1,0 +1,115 @@
+import React, { useState } from "react";
+import "../styles/register.css";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/auth/register', {
+        name,
+        email,
+        password,
+        phone,
+        address,
+      });
+
+      if (response && response.data.success) {
+        toast.success(response.data.message);
+        navigate("/login");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error in register:", error);
+      toast.error("Something went wrong in register");
+    }
+  };
+
+  return (
+    <div className="forms">
+      <form className="form" onSubmit={handleSubmit}>
+        <h1>Register form</h1>
+        <div className="mb-3">
+          <label htmlFor="exampleInputName" className="form-label">
+            Name
+          </label>
+          <input
+            type="text"
+            value={name}
+            className="form-control"
+            id="exampleInputName"
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Email address
+          </label>
+          <input
+            type="email"
+            value={email}
+            className="form-control"
+            id="exampleInputEmail1"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            className="form-control"
+            id="exampleInputPassword1"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPhone" className="form-label">
+            Phone
+          </label>
+          <input
+            type="text"
+            value={phone}
+            className="form-control"
+            id="exampleInputPhone"
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputAddress" className="form-label">
+            Address
+          </label>
+          <input
+            value={address}
+            type="text"
+            className="form-control"
+            id="exampleInputAddress"
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
